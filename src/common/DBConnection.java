@@ -19,9 +19,9 @@ public class DBConnection {
 		}
 		
 		if(goIng){
-			String db_url		="jdbc:oracle:thin:@:1521:xe";
-			String db_user		="";
-			String db_password	="";
+			String db_url		="jdbc:oracle:thin:@111.222.333.444:1521:xe";
+			String db_user		="jsl54";
+			String db_password	="1234";
 			
 			try {
 				con = DriverManager.getConnection(db_url, db_user, db_password);
