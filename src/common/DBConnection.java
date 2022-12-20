@@ -7,37 +7,60 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBConnection {
-
 	public static Connection getConnection(){
 		Connection con = null;
+		boolean goIng = true;
 		try {
-			Class.forName("oracle.jdbc.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@//track-7:1521/xe", "jsl54", "1234");
-			if (con == null) {
-				System.out.println("DB 접속 오퓨~~~");
-			}
-
-		} catch (Exception e) {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			goIng = false;
+			System.out.println("오라클 드리이버 없음~~");
 			e.printStackTrace();
+		}
+		
+		if(goIng){
+			String db_url		="jdbc:oracle:thin:@:1521:xe";
+			String db_user		="";
+			String db_password	="";
+			
+			try {
+				con = DriverManager.getConnection(db_url, db_user, db_password);
+			} catch (SQLException e) {
+				System.out.println("DB 계정설정 오류~~~");
+				e.printStackTrace();
+			}
 		}
 		return con;
 	}
 	
 	public static void closeDB(Connection con,
-								PreparedStatement stmt,
-								ResultSet rs){
-		try {
-			con.close();
-			stmt.close();
-			rs.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			                   PreparedStatement ps,
+			                   ResultSet rs){
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
- 
+		if(ps != null) {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
 }
+
+
 
 
 
